@@ -6,7 +6,7 @@ import CharacterForm from './components/CharacterForm.vue'
 
 <template>
   <header>
-    <div class="container">
+    <div class="container" style="max-width: 970px;">
       <CharacterForm />
     </div>
   </header>
