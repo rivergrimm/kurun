@@ -1,7 +1,7 @@
 <script setup>
 import { Modal } from 'bootstrap'
-import { reactive, computed } from 'vue'
-import { store, deleteCharacter, getCharacters } from '../store';
+import { reactive } from 'vue'
+import { deleteCharacter, getCharacters } from '../store';
 
 //const characters = getChacters
 const data = reactive({})

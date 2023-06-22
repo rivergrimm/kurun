@@ -18,7 +18,6 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      vue: '@vue/compat',
       '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap')
     }
   }
