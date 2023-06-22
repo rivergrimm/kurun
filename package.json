@@ -11,6 +11,7 @@
     "start": "vite build"
   },
   "dependencies": {
+    "@vue/compat": "^3.3.4",
     "bootstrap": "^5.3.0",
     "vue": "^3.2.47",
     "vue-compat": "^0.0.1",
