@@ -1,86 +1,65 @@
-<script>
-import Character from './Character.vue'
+<script setup>
+import { reactive } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { saveCharacter, getCharacter, defaultCharacter } from '../store.js'
 
-export default {
-    components: {
-        Character
-    },
-    data() {
-        return {
-            characters: [],
-            character: {
-                name: '',
-                resistance: '',
-                manner: '',
-                traits: [],
-                attributes: {
-                    accurate: 0,
-                    cunning: 0,
-                    discreet: 0,
-                    persuasive: 0,
-                    quick: 0,
-                    resolute: 0,
-                    strong: 0,
-                    vigilant: 0,
-                    toughness: 0,
-                    painThreshold: 0,
-                    defense: 0
-                },
-                abilities: [],
-                weapons: [],
-                armor: '',
-                equipment: [],
-                shadow: '',
-                tactics: ''
-            },
-            resistances: ['Weak', 'Ordinary', 'Challenging', 'Strong', 'Mighty']
-        }
-    },
-    methods: {
-        create() {
-            if (this.hasValidInput()) {
-                this.characters.push(this.character)
-            }
-        },
-        addProperty(type, event) {
-            let target = event.target
+const router = useRouter()
+const route = useRoute()
+const id = route.query.id
 
-            if (target.tagName !== 'INPUT') {
-                target = event.target.previousElementSibling
-            }
+let character = reactive(defaultCharacter())
+let buttonText = 'Create'
 
-            let props = this.character[type]
+if (id) {
+    character = getCharacter(id)
+    buttonText = 'Save Edits'
+}
 
-            if (event.charCode === 13 || !event.charCode) {
-                props.push(target.value)
-                target.value = ''
-            }
-        },
-        removeProperty(type, event) {
-            let props = this.character[type]
-            const index = event.target.value
-            props = props.splice(index, 1)
-        },
-        capitalized(text) {
-            let newText = text.toString().charAt(0).toUpperCase() + text.slice(1)
-            if (newText === 'PainThreshold') {
-                newText = 'Pain Threshold'
-            }
-            return newText
-        },
-        abbreviate(text) {
-            return text.toString().slice(0, 3).toUpperCase()
-        },
-        hasValidInput() {
-            return this.character.name.trim()
-        }
+
+
+const resistances = [
+    'Weak',
+    'Ordinary',
+    'Strong',
+    'Challenging',
+    'Mighty'
+]
+
+function addProperty(type, event) {
+    let target = event.target
+    if (target.tagName !== 'INPUT') {
+        target = event.target.previousElementSibling
     }
+
+    let props = character[type]
+    if (event.charCode === 13 || !event.charCode) {
+        props.push(target.value)
+        target.value = ''
+    }
+}
+
+function removeProperty(type, event) {
+    let props = character[type]
+    const index = event.target.value
+    props = props.splice(index, 1)
+}
+ 
+function capitalized(text) {
+    let newText = text.toString().charAt(0).toUpperCase() + text.slice(1)
+    if (newText === 'PainThreshold') {
+        newText = 'Pain Threshold'
+    }
+    return newText
+}
+
+function save() {
+    saveCharacter(character)
+    router.push({ path: '/' })
 }
 </script>
 
 <template>
-    <div class="col">
-        <h1>Character Creation</h1>
+    <div class="container mb-5">
         <div class="card mb-3">
             <div class="card-header">Character Basics</div>
             <div class="card-body">
@@ -114,8 +93,27 @@ export default {
                     <div v-for="(value, key, index) in character.attributes" class="col-sm-4">
                         <label for="`${key}`">{{ capitalized(key) }}</label>
                         <div class="mb-3">
-                            <input :value="character.attributes[key] > 0 ? character.attributes[key] : ''"
+                            <input v-model="character.attributes[key]"
+                                id="`${key}`"
                                 class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="toughness">Toughness</label>
+                        <div class="mb-3">
+                            <input type="text" v-model="character.toughness" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="painThreshold">Pain Threshold</label>
+                        <div class="mb-3">
+                            <input type="text" v-model="character.painThreshold" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="defense">Defense</label>
+                        <div class="mb-3">
+                            <input type="text" v-model="character.defense" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -146,7 +144,7 @@ export default {
             </div>
         </div>
         <div class="card mb-3">
-            <bid class="card-header">Character Abilities</bid>
+            <div class="card-header">Character Abilities</div>
             <div class="card-body">
                 <label for="ability">Ability</label>
                 <div class="input-group mb-3">
@@ -225,13 +223,9 @@ export default {
                 </div>
             </div>
         </div>
-    </div>
-      
-        
-    <button @click="create">Create</button>
-
-    <div>
-        <Character v-for="character in characters" :character="character" />
+        <button @click="save" class="btn btn-primary">
+            {{ buttonText }}
+        </button>
     </div>
 </template>
 

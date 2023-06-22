@@ -1,12 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-//import { library } from '@fortawesome/fontawesome-svg-core'
-//import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-//import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import routes from './routes.js'
 
-import 'bootstrap/dist/css/bootstrap.css'
+import '../scss/custom.scss'
+import * as bootstrap from 'bootstrap'
 
-//library.add(faTrash)
-
-//Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.createApp(App).mount('#app')
+Vue.createApp(App).use(routes).mount('#app')
