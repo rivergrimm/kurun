@@ -3,7 +3,6 @@ import { Modal } from 'bootstrap'
 import { reactive } from 'vue'
 import { deleteCharacter, getCharacters } from '../store';
 
-//const characters = getChacters
 const data = reactive({})
 data.characters = getCharacters()
 
