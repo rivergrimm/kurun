@@ -15,7 +15,7 @@ function valueModifier(value) {
 }
 
 const route = useRoute()
-const character = {}
+let character = {}
 character = getCharacter(route.query.id)
 console.log(character)
 
