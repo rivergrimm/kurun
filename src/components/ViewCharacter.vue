@@ -21,7 +21,7 @@ const character = getCharacter(route.query.id)
 
 <template>
     <div ref="character" class="container characterTableConainer">
-        <table id="characterTable" class="table" style="max-width:325px; font-size: 0.8rem;">
+        <table id="characterTable" class="table table-sm" style="max-width:325px; font-size: 0.8rem;">
             <thead>
                 <tr class="table-dark">
                     <th scope="col" colspan="4">{{ character.name }}</th>

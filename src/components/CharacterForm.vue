@@ -11,11 +11,9 @@ let character = reactive(defaultCharacter())
 let buttonText = 'Create'
 
 if (id) {
-    character = getCharacter(id)
+    character = reactive(getCharacter(id))
     buttonText = 'Save Edits'
 }
-
-
 
 const resistances = [
     'Weak',
