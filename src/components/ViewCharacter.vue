@@ -22,7 +22,7 @@ console.log(character)
 </script>
 
 <template>
-    <div ref="character" class="container characterTableConainer">
+    <div class="container characterTableConainer">
         <table id="characterTable" class="table table-sm" style="max-width:325px; font-size: 0.8rem;">
             <thead>
                 <tr class="table-dark">
