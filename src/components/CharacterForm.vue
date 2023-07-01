@@ -60,7 +60,6 @@ function template(event) {
     const val = event.target.value
     const template = getTemplate(val)
     data.character = template
-    console.log(data.character)
 }
 </script>
 
