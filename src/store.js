@@ -139,7 +139,16 @@ export const getCharacter = function (characterId) {
     return data.characters.find(char => Number(char.id) === Number(characterId))
 }
 
-export const getCharacters = function () {
+export const getCharacters = function (chars) {
+    const allCharacters = getAllCharacters()
+    chars = chars.map((str) => { return parseInt(str) })
+    let result = allCharacters.filter((char) => {
+        return chars.indexOf(char.id) != -1
+    })
+    return result
+}
+
+export const getAllCharacters = function () {
     if (localStorage.getItem('characters')) {
         try {
             data.characters = JSON.parse(localStorage.getItem('characters'))

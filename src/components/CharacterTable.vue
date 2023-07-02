@@ -1,10 +1,12 @@
 <script setup>
 import { Modal } from 'bootstrap'
 import { reactive } from 'vue'
-import { deleteCharacter, getCharacters } from '../store';
+import router from '../routes'
+import { deleteCharacter, getAllCharacters } from '../store'
 
 const data = reactive({})
-data.characters = getCharacters()
+data.checked = []
+data.characters = getAllCharacters()
 
 let toDelete = null
 
@@ -13,7 +15,7 @@ function prepDelete(id) {
 }
 
 function refresh() {
-    data.characters = getCharacters()
+    data.characters = getAllCharacters()
 }
 
 function confirmDelete() {
@@ -22,6 +24,15 @@ function confirmDelete() {
         var myModalEl = document.getElementById('deleteModal')
         var modal = Modal.getInstance(myModalEl)
         modal.hide()
+    })
+}
+
+function viewCharacters() {
+    router.push({
+        path: 'view',
+        query: {
+            chars: data.checked
+        }
     })
 }
 
@@ -40,7 +51,7 @@ function confirmDelete() {
     <table v-else class="table">
         <thead class="table-light">
             <tr>
-                <th scope="col">Your Characters</th>
+                <th scope="col" colspan="2">Your Characters</th>
                 <th scope="col" class="text-end">
                     <router-link :to="{
                         name: 'create'
@@ -50,10 +61,16 @@ function confirmDelete() {
         </thead>
         <tbody>
             <tr v-for="character in data.characters">
+                <th scope="row" style="width: 25px">
+                    <input type="checkbox"
+                        :value="character.id"
+                        :id="character.name"
+                        v-model="data.checked">
+                </th>
                 <td class="">
                     <router-link :to="{
                         path: 'view',
-                        query: { id: character.id }
+                        query: { chars: [character.id] }
                     }">
                         {{ character.name }}
                     </router-link>
@@ -69,6 +86,15 @@ function confirmDelete() {
                 </td>
             </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="border-bottom-0">
+                    <button type="button" @click="viewCharacters" class="btn btn-primary">
+                        View Selected Characters
+                    </button>
+                </td>
+            </tr>
+        </tfoot>
     </table>
     <div class="modal" id="deleteModal" tabindex="-1">
         <div class="modal-dialog">
